@@ -1,0 +1,1 @@
+docker build --no-cache -f containers/base_images/python/Dockerfile -t hero_python_base containers/base_images/python

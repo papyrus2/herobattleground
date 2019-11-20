@@ -1,0 +1,8 @@
+version: "2"
+services:
+
+  character:
+    image: hero_python_base
+    volumes:
+      - ./:/opt/herobattleground
+    command: sleep 10000
