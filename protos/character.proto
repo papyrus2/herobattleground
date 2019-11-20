@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package character;
+
+service WeatherService {
+    rpc Get(CharacterRequest) returns (CharacterResponse);
+}
+
+message CharacterRequest {
+    int32 id = 1;
+}
+
+message CharacterResponse {
+    Character character = 1;
+}
+
+
+message Character {
+    int32 id = 1;
+    int32 health = 2;
+    int32 strength = 3;
+    int32 defence = 4;
+    int32 speed = 5;
+    int32 chance = 6;
+    Skills skills = 7;
+}
+
+enum SkillType {
+    UNKNOWN = 0;
+    DEFENCE = 1;
+    ATTACK = 2;
+}
+
+message Skills {
+    string name = 1; // skill name
+    int32 chance = 2; // chance for your skill to perform
+    SkillType skill_type = 3; // based on skill type different attribute is affected
+    float power = 4; // increasing stat
+}

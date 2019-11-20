@@ -1,0 +1,8 @@
+# https://github.com/znly/docker-protobuf
+
+generate-python:
+  image: znly/protoc
+  command: >
+    --plugin=protoc-gen-grpc=/usr/bin/grpc_python_plugin --python_out=${OUT_PATH} --grpc_out=${OUT_PATH} -I${PROTO_PATH} ${PROTO_PATH}/${PROTO_NAME}.proto
+  volumes:
+    - .:${PROTO_PATH}
