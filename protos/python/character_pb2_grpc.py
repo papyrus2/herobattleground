@@ -4,7 +4,7 @@ import grpc
 import character_pb2 as character__pb2
 
 
-class WeatherServiceStub(object):
+class CharactersServiceStub(object):
   # missing associated documentation comment in .proto file
   pass
 
@@ -15,13 +15,13 @@ class WeatherServiceStub(object):
       channel: A grpc.Channel.
     """
     self.Get = channel.unary_unary(
-        '/character.WeatherService/Get',
+        '/character.CharactersService/Get',
         request_serializer=character__pb2.CharacterRequest.SerializeToString,
         response_deserializer=character__pb2.CharacterResponse.FromString,
         )
 
 
-class WeatherServiceServicer(object):
+class CharactersServiceServicer(object):
   # missing associated documentation comment in .proto file
   pass
 
@@ -33,7 +33,7 @@ class WeatherServiceServicer(object):
     raise NotImplementedError('Method not implemented!')
 
 
-def add_WeatherServiceServicer_to_server(servicer, server):
+def add_CharactersServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
       'Get': grpc.unary_unary_rpc_method_handler(
           servicer.Get,
@@ -42,5 +42,5 @@ def add_WeatherServiceServicer_to_server(servicer, server):
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
-      'character.WeatherService', rpc_method_handlers)
+      'character.CharactersService', rpc_method_handlers)
   server.add_generic_rpc_handlers((generic_handler,))

@@ -2,21 +2,26 @@ syntax = "proto3";
 
 package character;
 
-service WeatherService {
+service CharactersService {
     rpc Get(CharacterRequest) returns (CharacterResponse);
 }
 
 message CharacterRequest {
-    int32 id = 1;
+    CharacterType character_type = 1;
 }
 
 message CharacterResponse {
     Character character = 1;
 }
 
+enum CharacterType {
+    UNKNOWN_CHARACTER = 0;
+    HUMAN = 1;
+    BEAST = 2;
+}
 
 message Character {
-    int32 id = 1;
+    CharacterType character_type = 1;
     int32 health = 2;
     int32 strength = 3;
     int32 defence = 4;
@@ -26,7 +31,7 @@ message Character {
 }
 
 enum SkillType {
-    UNKNOWN = 0;
+    UNKNOWN_SKILL = 0;
     DEFENCE = 1;
     ATTACK = 2;
 }

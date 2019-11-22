@@ -20,9 +20,36 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='character.proto',
   package='character',
   syntax='proto3',
-  serialized_pb=_b('\n\x0f\x63haracter.proto\x12\tcharacter\"\x1e\n\x10\x43haracterRequest\x12\n\n\x02id\x18\x01 \x01(\x05\"<\n\x11\x43haracterResponse\x12\'\n\tcharacter\x18\x01 \x01(\x0b\x32\x14.character.Character\"\x8c\x01\n\tCharacter\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0e\n\x06health\x18\x02 \x01(\x05\x12\x10\n\x08strength\x18\x03 \x01(\x05\x12\x0f\n\x07\x64\x65\x66\x65nce\x18\x04 \x01(\x05\x12\r\n\x05speed\x18\x05 \x01(\x05\x12\x0e\n\x06\x63hance\x18\x06 \x01(\x05\x12!\n\x06skills\x18\x07 \x01(\x0b\x32\x11.character.Skills\"_\n\x06Skills\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06\x63hance\x18\x02 \x01(\x05\x12(\n\nskill_type\x18\x03 \x01(\x0e\x32\x14.character.SkillType\x12\r\n\x05power\x18\x04 \x01(\x02*1\n\tSkillType\x12\x0b\n\x07UNKNOWN\x10\x00\x12\x0b\n\x07\x44\x45\x46\x45NCE\x10\x01\x12\n\n\x06\x41TTACK\x10\x02\x32R\n\x0eWeatherService\x12@\n\x03Get\x12\x1b.character.CharacterRequest\x1a\x1c.character.CharacterResponseb\x06proto3')
+  serialized_pb=_b('\n\x0f\x63haracter.proto\x12\tcharacter\"D\n\x10\x43haracterRequest\x12\x30\n\x0e\x63haracter_type\x18\x01 \x01(\x0e\x32\x18.character.CharacterType\"<\n\x11\x43haracterResponse\x12\'\n\tcharacter\x18\x01 \x01(\x0b\x32\x14.character.Character\"\xb2\x01\n\tCharacter\x12\x30\n\x0e\x63haracter_type\x18\x01 \x01(\x0e\x32\x18.character.CharacterType\x12\x0e\n\x06health\x18\x02 \x01(\x05\x12\x10\n\x08strength\x18\x03 \x01(\x05\x12\x0f\n\x07\x64\x65\x66\x65nce\x18\x04 \x01(\x05\x12\r\n\x05speed\x18\x05 \x01(\x05\x12\x0e\n\x06\x63hance\x18\x06 \x01(\x05\x12!\n\x06skills\x18\x07 \x01(\x0b\x32\x11.character.Skills\"_\n\x06Skills\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06\x63hance\x18\x02 \x01(\x05\x12(\n\nskill_type\x18\x03 \x01(\x0e\x32\x14.character.SkillType\x12\r\n\x05power\x18\x04 \x01(\x02*<\n\rCharacterType\x12\x15\n\x11UNKNOWN_CHARACTER\x10\x00\x12\t\n\x05HUMAN\x10\x01\x12\t\n\x05\x42\x45\x41ST\x10\x02*7\n\tSkillType\x12\x11\n\rUNKNOWN_SKILL\x10\x00\x12\x0b\n\x07\x44\x45\x46\x45NCE\x10\x01\x12\n\n\x06\x41TTACK\x10\x02\x32U\n\x11\x43haractersService\x12@\n\x03Get\x12\x1b.character.CharacterRequest\x1a\x1c.character.CharacterResponseb\x06proto3')
 )
 
+_CHARACTERTYPE = _descriptor.EnumDescriptor(
+  name='CharacterType',
+  full_name='character.CharacterType',
+  filename=None,
+  file=DESCRIPTOR,
+  values=[
+    _descriptor.EnumValueDescriptor(
+      name='UNKNOWN_CHARACTER', index=0, number=0,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='HUMAN', index=1, number=1,
+      options=None,
+      type=None),
+    _descriptor.EnumValueDescriptor(
+      name='BEAST', index=2, number=2,
+      options=None,
+      type=None),
+  ],
+  containing_type=None,
+  options=None,
+  serialized_start=440,
+  serialized_end=500,
+)
+_sym_db.RegisterEnumDescriptor(_CHARACTERTYPE)
+
+CharacterType = enum_type_wrapper.EnumTypeWrapper(_CHARACTERTYPE)
 _SKILLTYPE = _descriptor.EnumDescriptor(
   name='SkillType',
   full_name='character.SkillType',
@@ -30,7 +57,7 @@ _SKILLTYPE = _descriptor.EnumDescriptor(
   file=DESCRIPTOR,
   values=[
     _descriptor.EnumValueDescriptor(
-      name='UNKNOWN', index=0, number=0,
+      name='UNKNOWN_SKILL', index=0, number=0,
       options=None,
       type=None),
     _descriptor.EnumValueDescriptor(
@@ -44,13 +71,16 @@ _SKILLTYPE = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   options=None,
-  serialized_start=364,
-  serialized_end=413,
+  serialized_start=502,
+  serialized_end=557,
 )
 _sym_db.RegisterEnumDescriptor(_SKILLTYPE)
 
 SkillType = enum_type_wrapper.EnumTypeWrapper(_SKILLTYPE)
-UNKNOWN = 0
+UNKNOWN_CHARACTER = 0
+HUMAN = 1
+BEAST = 2
+UNKNOWN_SKILL = 0
 DEFENCE = 1
 ATTACK = 2
 
@@ -64,8 +94,8 @@ _CHARACTERREQUEST = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='character.CharacterRequest.id', index=0,
-      number=1, type=5, cpp_type=1, label=1,
+      name='character_type', full_name='character.CharacterRequest.character_type', index=0,
+      number=1, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -83,7 +113,7 @@ _CHARACTERREQUEST = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=30,
-  serialized_end=60,
+  serialized_end=98,
 )
 
 
@@ -113,8 +143,8 @@ _CHARACTERRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=62,
-  serialized_end=122,
+  serialized_start=100,
+  serialized_end=160,
 )
 
 
@@ -126,8 +156,8 @@ _CHARACTER = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='id', full_name='character.Character.id', index=0,
-      number=1, type=5, cpp_type=1, label=1,
+      name='character_type', full_name='character.Character.character_type', index=0,
+      number=1, type=14, cpp_type=8, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -186,8 +216,8 @@ _CHARACTER = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=125,
-  serialized_end=265,
+  serialized_start=163,
+  serialized_end=341,
 )
 
 
@@ -238,17 +268,20 @@ _SKILLS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=267,
-  serialized_end=362,
+  serialized_start=343,
+  serialized_end=438,
 )
 
+_CHARACTERREQUEST.fields_by_name['character_type'].enum_type = _CHARACTERTYPE
 _CHARACTERRESPONSE.fields_by_name['character'].message_type = _CHARACTER
+_CHARACTER.fields_by_name['character_type'].enum_type = _CHARACTERTYPE
 _CHARACTER.fields_by_name['skills'].message_type = _SKILLS
 _SKILLS.fields_by_name['skill_type'].enum_type = _SKILLTYPE
 DESCRIPTOR.message_types_by_name['CharacterRequest'] = _CHARACTERREQUEST
 DESCRIPTOR.message_types_by_name['CharacterResponse'] = _CHARACTERRESPONSE
 DESCRIPTOR.message_types_by_name['Character'] = _CHARACTER
 DESCRIPTOR.message_types_by_name['Skills'] = _SKILLS
+DESCRIPTOR.enum_types_by_name['CharacterType'] = _CHARACTERTYPE
 DESCRIPTOR.enum_types_by_name['SkillType'] = _SKILLTYPE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -282,18 +315,18 @@ _sym_db.RegisterMessage(Skills)
 
 
 
-_WEATHERSERVICE = _descriptor.ServiceDescriptor(
-  name='WeatherService',
-  full_name='character.WeatherService',
+_CHARACTERSSERVICE = _descriptor.ServiceDescriptor(
+  name='CharactersService',
+  full_name='character.CharactersService',
   file=DESCRIPTOR,
   index=0,
   options=None,
-  serialized_start=415,
-  serialized_end=497,
+  serialized_start=559,
+  serialized_end=644,
   methods=[
   _descriptor.MethodDescriptor(
     name='Get',
-    full_name='character.WeatherService.Get',
+    full_name='character.CharactersService.Get',
     index=0,
     containing_service=None,
     input_type=_CHARACTERREQUEST,
@@ -301,9 +334,9 @@ _WEATHERSERVICE = _descriptor.ServiceDescriptor(
     options=None,
   ),
 ])
-_sym_db.RegisterServiceDescriptor(_WEATHERSERVICE)
+_sym_db.RegisterServiceDescriptor(_CHARACTERSSERVICE)
 
-DESCRIPTOR.services_by_name['WeatherService'] = _WEATHERSERVICE
+DESCRIPTOR.services_by_name['CharactersService'] = _CHARACTERSSERVICE
 
 try:
   # THESE ELEMENTS WILL BE DEPRECATED.
@@ -315,7 +348,7 @@ try:
   from grpc.framework.interfaces.face import utilities as face_utilities
 
 
-  class WeatherServiceStub(object):
+  class CharactersServiceStub(object):
     # missing associated documentation comment in .proto file
     pass
 
@@ -326,13 +359,13 @@ try:
         channel: A grpc.Channel.
       """
       self.Get = channel.unary_unary(
-          '/character.WeatherService/Get',
+          '/character.CharactersService/Get',
           request_serializer=CharacterRequest.SerializeToString,
           response_deserializer=CharacterResponse.FromString,
           )
 
 
-  class WeatherServiceServicer(object):
+  class CharactersServiceServicer(object):
     # missing associated documentation comment in .proto file
     pass
 
@@ -344,7 +377,7 @@ try:
       raise NotImplementedError('Method not implemented!')
 
 
-  def add_WeatherServiceServicer_to_server(servicer, server):
+  def add_CharactersServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
         'Get': grpc.unary_unary_rpc_method_handler(
             servicer.Get,
@@ -353,11 +386,11 @@ try:
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-        'character.WeatherService', rpc_method_handlers)
+        'character.CharactersService', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
-  class BetaWeatherServiceServicer(object):
+  class BetaCharactersServiceServicer(object):
     """The Beta API is deprecated for 0.15.0 and later.
 
     It is recommended to use the GA API (classes and functions in this
@@ -371,7 +404,7 @@ try:
       context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
 
 
-  class BetaWeatherServiceStub(object):
+  class BetaCharactersServiceStub(object):
     """The Beta API is deprecated for 0.15.0 and later.
 
     It is recommended to use the GA API (classes and functions in this
@@ -386,42 +419,42 @@ try:
     Get.future = None
 
 
-  def beta_create_WeatherService_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
+  def beta_create_CharactersService_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
     """The Beta API is deprecated for 0.15.0 and later.
 
     It is recommended to use the GA API (classes and functions in this
     file not marked beta) for all further purposes. This function was
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_deserializers = {
-      ('character.WeatherService', 'Get'): CharacterRequest.FromString,
+      ('character.CharactersService', 'Get'): CharacterRequest.FromString,
     }
     response_serializers = {
-      ('character.WeatherService', 'Get'): CharacterResponse.SerializeToString,
+      ('character.CharactersService', 'Get'): CharacterResponse.SerializeToString,
     }
     method_implementations = {
-      ('character.WeatherService', 'Get'): face_utilities.unary_unary_inline(servicer.Get),
+      ('character.CharactersService', 'Get'): face_utilities.unary_unary_inline(servicer.Get),
     }
     server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
     return beta_implementations.server(method_implementations, options=server_options)
 
 
-  def beta_create_WeatherService_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):
+  def beta_create_CharactersService_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):
     """The Beta API is deprecated for 0.15.0 and later.
 
     It is recommended to use the GA API (classes and functions in this
     file not marked beta) for all further purposes. This function was
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_serializers = {
-      ('character.WeatherService', 'Get'): CharacterRequest.SerializeToString,
+      ('character.CharactersService', 'Get'): CharacterRequest.SerializeToString,
     }
     response_deserializers = {
-      ('character.WeatherService', 'Get'): CharacterResponse.FromString,
+      ('character.CharactersService', 'Get'): CharacterResponse.FromString,
     }
     cardinalities = {
       'Get': cardinality.Cardinality.UNARY_UNARY,
     }
     stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
-    return beta_implementations.dynamic_stub(channel, 'character.WeatherService', cardinalities, options=stub_options)
+    return beta_implementations.dynamic_stub(channel, 'character.CharactersService', cardinalities, options=stub_options)
 except ImportError:
   pass
 # @@protoc_insertion_point(module_scope)
