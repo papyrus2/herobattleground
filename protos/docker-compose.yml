@@ -1,8 +1,9 @@
-# https://github.com/znly/docker-protobuf
-
-generate-python:
-  image: znly/protoc
-  command: >
-    --plugin=protoc-gen-grpc=/usr/bin/grpc_python_plugin --python_out=${OUT_PATH} --grpc_out=${OUT_PATH} -I${PROTO_PATH} ${PROTO_PATH}/${PROTO_NAME}.proto
-  volumes:
-    - .:${PROTO_PATH}
+version: "2"
+services:
+  generate-python:
+    image: hero_python_base
+    command: python run_codegen.py
+    volumes:
+      - ./:/opt/herobattleground/protos
+    working_dir:
+      /opt/herobattleground/protos
