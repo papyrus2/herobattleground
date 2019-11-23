@@ -27,7 +27,7 @@ message Character {
     int32 defence = 4;
     int32 speed = 5;
     int32 chance = 6;
-    Skills skills = 7;
+    repeated Skills skills = 7;
 }
 
 enum SkillType {

@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='character',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x0f\x63haracter.proto\x12\tcharacter\"D\n\x10\x43haracterRequest\x12\x30\n\x0e\x63haracter_type\x18\x01 \x01(\x0e\x32\x18.character.CharacterType\"<\n\x11\x43haracterResponse\x12\'\n\tcharacter\x18\x01 \x01(\x0b\x32\x14.character.Character\"\xb2\x01\n\tCharacter\x12\x30\n\x0e\x63haracter_type\x18\x01 \x01(\x0e\x32\x18.character.CharacterType\x12\x0e\n\x06health\x18\x02 \x01(\x05\x12\x10\n\x08strength\x18\x03 \x01(\x05\x12\x0f\n\x07\x64\x65\x66\x65nce\x18\x04 \x01(\x05\x12\r\n\x05speed\x18\x05 \x01(\x05\x12\x0e\n\x06\x63hance\x18\x06 \x01(\x05\x12!\n\x06skills\x18\x07 \x01(\x0b\x32\x11.character.Skills\"_\n\x06Skills\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06\x63hance\x18\x02 \x01(\x05\x12(\n\nskill_type\x18\x03 \x01(\x0e\x32\x14.character.SkillType\x12\r\n\x05power\x18\x04 \x01(\x02*<\n\rCharacterType\x12\x15\n\x11UNKNOWN_CHARACTER\x10\x00\x12\t\n\x05HUMAN\x10\x01\x12\t\n\x05\x42\x45\x41ST\x10\x02*7\n\tSkillType\x12\x11\n\rUNKNOWN_SKILL\x10\x00\x12\x0b\n\x07\x44\x45\x46\x45NCE\x10\x01\x12\n\n\x06\x41TTACK\x10\x02\x32U\n\x11\x43haractersService\x12@\n\x03Get\x12\x1b.character.CharacterRequest\x1a\x1c.character.CharacterResponseb\x06proto3')
+  serialized_pb=_b('\n\x0f\x63haracter.proto\x12\tcharacter\"D\n\x10\x43haracterRequest\x12\x30\n\x0e\x63haracter_type\x18\x01 \x01(\x0e\x32\x18.character.CharacterType\"<\n\x11\x43haracterResponse\x12\'\n\tcharacter\x18\x01 \x01(\x0b\x32\x14.character.Character\"\xb2\x01\n\tCharacter\x12\x30\n\x0e\x63haracter_type\x18\x01 \x01(\x0e\x32\x18.character.CharacterType\x12\x0e\n\x06health\x18\x02 \x01(\x05\x12\x10\n\x08strength\x18\x03 \x01(\x05\x12\x0f\n\x07\x64\x65\x66\x65nce\x18\x04 \x01(\x05\x12\r\n\x05speed\x18\x05 \x01(\x05\x12\x0e\n\x06\x63hance\x18\x06 \x01(\x05\x12!\n\x06skills\x18\x07 \x03(\x0b\x32\x11.character.Skills\"_\n\x06Skills\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x0e\n\x06\x63hance\x18\x02 \x01(\x05\x12(\n\nskill_type\x18\x03 \x01(\x0e\x32\x14.character.SkillType\x12\r\n\x05power\x18\x04 \x01(\x02*<\n\rCharacterType\x12\x15\n\x11UNKNOWN_CHARACTER\x10\x00\x12\t\n\x05HUMAN\x10\x01\x12\t\n\x05\x42\x45\x41ST\x10\x02*7\n\tSkillType\x12\x11\n\rUNKNOWN_SKILL\x10\x00\x12\x0b\n\x07\x44\x45\x46\x45NCE\x10\x01\x12\n\n\x06\x41TTACK\x10\x02\x32U\n\x11\x43haractersService\x12@\n\x03Get\x12\x1b.character.CharacterRequest\x1a\x1c.character.CharacterResponseb\x06proto3')
 )
 
 _CHARACTERTYPE = _descriptor.EnumDescriptor(
@@ -200,8 +200,8 @@ _CHARACTER = _descriptor.Descriptor(
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
       name='skills', full_name='character.Character.skills', index=6,
-      number=7, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
+      number=7, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
