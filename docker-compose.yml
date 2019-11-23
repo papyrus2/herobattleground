@@ -1,7 +1,16 @@
 version: "2"
 services:
 
-  character:
+  characters_service:
+    image: hero_python_base
+    volumes:
+      - ./:/opt/herobattleground
+
+    ports:
+      - "50051:50051"
+    command: python characters/characters_service.py
+
+  testing:
     image: hero_python_base
     volumes:
       - ./:/opt/herobattleground
