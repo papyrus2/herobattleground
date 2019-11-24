@@ -6,7 +6,8 @@
 from grpc_tools import protoc
 
 PROTO_DOCKER_PATH = "/opt/herobattleground/protos"
-PROTO_FILES = ['character']
+PYTHON_PROTO_DIRECTORY = '%s/python' % PROTO_DOCKER_PATH
+PROTO_FILES = ['character', 'battleground']
 
 
 def inplace_change(filename, old_string, new_string):
@@ -16,7 +17,6 @@ def inplace_change(filename, old_string, new_string):
     with open(filename) as f:
         s = f.read()
         if old_string not in s:
-            print('"{old_string}" not found in {filename}.'.format(**locals()))
             return
 
     # Update the file strings
@@ -27,22 +27,32 @@ def inplace_change(filename, old_string, new_string):
         f.write(s)
 
 
+def update_imports(proto_file_name):
+    """ Update generated files to use relativ to the root repository paths. """
+    for replace_string in PROTO_FILES:
+        old_string = 'import %s_pb2 as' % replace_string
+        new_string = 'import protos.python.%s_pb2 as' % replace_string
+
+        pb_grpc_file = '%s/%s_pb2_grpc.py' % (PYTHON_PROTO_DIRECTORY,
+                                              proto_file_name)
+        inplace_change(pb_grpc_file, old_string, new_string)
+
+        pb_file = '%s/%s_pb2.py' % (PYTHON_PROTO_DIRECTORY, proto_file_name)
+        inplace_change(pb_file, old_string, new_string)
+
+
 def main():
     for proto_name in PROTO_FILES:
-        python_proto_directory = '%s/python' % PROTO_DOCKER_PATH
         proto_file = '%s/%s.proto' % (PROTO_DOCKER_PATH, proto_name)
         protoc.main((
             '',
             '-I%s' % PROTO_DOCKER_PATH,
-            '--python_out=%s' % python_proto_directory,
-            '--grpc_python_out=%s' % python_proto_directory,
+            '--python_out=%s' % PYTHON_PROTO_DIRECTORY,
+            '--grpc_python_out=%s' % PYTHON_PROTO_DIRECTORY,
             proto_file,
         ))
 
-        pb_file = '%s/%s_pb2_grpc.py' % (python_proto_directory, proto_name)
-        old_string = 'import %s_pb2 as' % proto_name
-        new_string = 'import protos.python.%s_pb2 as' % proto_name
-        inplace_change(pb_file, old_string, new_string)
+        update_imports(proto_name)
 
 
 if __name__ == "__main__":

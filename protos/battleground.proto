@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package battleground;
+
+import "character.proto";
+
+service BattlegroundService {
+    rpc Fighting(BattlegroundRequest) returns (BattlegroundResponse);
+}
+
+message BattlegroundRequest {
+    character.Character first_player = 1;
+    character.Character second_player = 2;
+}
+
+message BattlegroundResponse {
+    character.Character winner = 1;
+}
