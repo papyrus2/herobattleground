@@ -10,6 +10,17 @@ services:
       - "50051:50051"
     command: python characters/characters_service.py
 
+  battleground_service:
+    image: hero_python_base
+    volumes:
+      - ./:/opt/herobattleground
+
+    ports:
+      - "50052:50052"
+    command: python battleground/battleground_service.py
+
+
+
   testing:
     image: hero_python_base
     volumes:
