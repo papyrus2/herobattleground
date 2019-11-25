@@ -5,7 +5,7 @@ from mock import patch
 from nose.plugins.attrib import attr
 
 from battleground.battleground_service import BattlegroundService
-from protos.python.battleground_pb2 import BattlegroundResponse, BattlegroundRequest
+from protos.python.battleground_pb2 import BattlegroundResponse, BattlegroundRequest, BattleLog
 from protos.python.character_pb2 import HUMAN, BEAST, DEFENCE, ATTACK, Character
 
 
@@ -18,15 +18,20 @@ class TestBattlegroundService(unittest.TestCase):
         mock_roll_chance.return_value = False
 
         attacker = self.generate_character(HUMAN)
-        defencer = self.generate_character(BEAST)
+        defender = self.generate_character(BEAST)
 
-        original_defencer = deepcopy(defencer)
-        original_defencer.health = original_defencer.health - (attacker.strength - defencer.defence)
+        original_defender = deepcopy(defender)
+        damage = attacker.strength - defender.defence
+        original_defender.health = original_defender.health - damage
+        expected_log = BattleLog(
+            attacker=attacker, defender=defender, damage=damage, defence_health=original_defender.health
+        )
 
         bs = BattlegroundService()
-        bs.round(attacker, defencer)
+        log = bs.round(attacker, defender)
 
-        self.assertEqual(original_defencer, defencer, "Defender health should have changed.")
+        self.assertEqual(original_defender, defender, "Defender health should have changed.")
+        self.assertEqual(log, expected_log, "Different BattleLogs received")
 
     @patch("battleground.battleground_service.BattlegroundService.roll_chance", autospec=True)
     def test_round_defence_success(self, mock_roll_chance):
@@ -34,14 +39,14 @@ class TestBattlegroundService(unittest.TestCase):
         mock_roll_chance.return_value = True
 
         attacker = self.generate_character(HUMAN)
-        defencer = self.generate_character(BEAST)
+        defender = self.generate_character(BEAST)
 
-        original_defencer = deepcopy(defencer)
+        original_defender = deepcopy(defender)
 
         bs = BattlegroundService()
-        bs.round(attacker, defencer)
+        bs.round(attacker, defender)
 
-        self.assertEqual(original_defencer, defencer, "Defenders health shouldn't have changed.")
+        self.assertEqual(original_defender, defender, "Defenders health shouldn't have changed.")
 
     @patch("battleground.battleground_service.BattlegroundService.roll_chance", autospec=True)
     def test_round_attack_skill_success(self, mock_roll_chance):
@@ -49,16 +54,16 @@ class TestBattlegroundService(unittest.TestCase):
         mock_roll_chance.side_effect = [False, True]
 
         attacker = self.generate_character(HUMAN)
-        defencer = self.generate_character(BEAST)
+        defender = self.generate_character(BEAST)
 
-        original_defencer = deepcopy(defencer)
-        damage = attacker.strength - defencer.defence
-        original_defencer.health -= damage * 2
+        original_defender = deepcopy(defender)
+        damage = attacker.strength - defender.defence
+        original_defender.health -= damage * 2
 
         bs = BattlegroundService()
-        bs.round(attacker, defencer)
+        bs.round(attacker, defender)
 
-        self.assertEqual(original_defencer, defencer, "Defender health should have changed.")
+        self.assertEqual(original_defender, defender, "Defender health should have changed.")
 
     @patch("battleground.battleground_service.BattlegroundService.roll_chance", autospec=True)
     def test_round_defence_skill_success(self, mock_roll_chance):
@@ -66,15 +71,15 @@ class TestBattlegroundService(unittest.TestCase):
         mock_roll_chance.side_effect = [False, True, False]
 
         attacker = self.generate_character(BEAST)
-        defencer = self.generate_character(HUMAN)
+        defender = self.generate_character(HUMAN)
 
-        original_defencer = deepcopy(defencer)
-        original_defencer.health = original_defencer.health - int((attacker.strength - defencer.defence) / 2)
+        original_defender = deepcopy(defender)
+        original_defender.health = original_defender.health - int((attacker.strength - defender.defence) / 2)
 
         bs = BattlegroundService()
-        bs.round(attacker, defencer)
+        bs.round(attacker, defender)
 
-        self.assertEqual(original_defencer, defencer, "Defender health should have changed.")
+        self.assertEqual(original_defender, defender, "Defender health should have changed.")
 
     @patch("battleground.battleground_service.BattlegroundService.roll_chance", autospec=True)
     def test_fighting_no_luck(self, mock_roll_chance):
@@ -82,13 +87,13 @@ class TestBattlegroundService(unittest.TestCase):
         mock_roll_chance.return_value = False
 
         attacker = self.generate_character(HUMAN)
-        defencer = self.generate_character(BEAST)
+        defender = self.generate_character(BEAST)
 
         expected_winner = deepcopy(attacker)
         expected_winner.health = 25
         bs = BattlegroundService()
 
-        result = bs.Fighting(BattlegroundRequest(first_player=attacker, second_player=defencer), None)
+        result = bs.Fighting(BattlegroundRequest(first_player=attacker, second_player=defender), None)
 
         # when there is no luck the HUMAN always wins with Health left at 25
         self.assertEqual(expected_winner, result.winner, "Unexpected winner of the fight")
