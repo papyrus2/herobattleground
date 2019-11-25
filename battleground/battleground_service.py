@@ -23,8 +23,7 @@ class BattlegroundService(BattlegroundServiceServicer):
 
     def compute_damage(self, attacker, defencer):
         """ Compute the damage done by the attacker. """
-        damage = attacker.strength - defencer.defence
-        return damage
+        return attacker.strength - defencer.defence
 
     def roll_chance(self, chance):
         """ See if the player lucky strike. """
@@ -46,6 +45,9 @@ class BattlegroundService(BattlegroundServiceServicer):
         if skill:
             damage = int(damage / skill)
 
+        skill = self.use_skill(attacker.skills, character_pb2.ATTACK)
+        if skill:
+            defencer.health -= int(damage * (skill - 1))
         defencer.health -= damage
 
     def use_skill(self, skills, skill_type):
@@ -72,15 +74,11 @@ class BattlegroundService(BattlegroundServiceServicer):
         winner = attacker
         for _ in range(20):
             self.round(attacker, defencer)
-            skill = self.use_skill(attacker.skills, character_pb2.ATTACK)
-            for _ in range(skill - 1):
-                self.round(attacker, defencer)
-
             if defencer.health < 0:
                 winner = attacker
                 break
 
-            first_player, second_player = second_player, first_player
+            attacker, defencer = defencer, attacker
 
         return battleground_pb2.BattlegroundResponse(winner=winner)
 
