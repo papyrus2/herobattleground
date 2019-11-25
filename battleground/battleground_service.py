@@ -2,14 +2,14 @@ from concurrent import futures
 import random
 
 import grpc
-from protos.python.battleground_pb2_grpc import (
-    BattlegroundServiceServicer, add_BattlegroundServiceServicer_to_server)
+from protos.python.battleground_pb2_grpc import (BattlegroundServiceServicer, add_BattlegroundServiceServicer_to_server)
 from protos.python import character_pb2, battleground_pb2
 from characters.helpers import generate_character
 
 
 class BattlegroundService(BattlegroundServiceServicer):
     """ Battleground Service will handle all the fighting mechanism. """
+
     def decide_playing_order(self, first_player, second_player):
         """ Decide the what player will be first to attack. 
         The player order will be decided based on the speed and chance
@@ -68,8 +68,7 @@ class BattlegroundService(BattlegroundServiceServicer):
         first_player = request.first_player
         second_player = request.second_player
 
-        first_player, second_player = self.decide_playing_order(
-            first_player, second_player)
+        first_player, second_player = self.decide_playing_order(first_player, second_player)
 
         self.round(first_player, second_player)
 

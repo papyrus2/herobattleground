@@ -9,6 +9,7 @@ from protos.python.character_pb2 import HUMAN, BEAST, Character
 
 @attr('unit')
 class TestCharactersService(unittest.TestCase):
+
     @patch("random.randint", autospec=True)
     def test_generate_character_human(self, mock_randint):
         """Check that generating a human character has all the expcted attributes. """

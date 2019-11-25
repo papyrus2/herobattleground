@@ -5,6 +5,7 @@ from protos.python import character_pb2_grpc
 
 
 class CharactersClient(object):
+
     def __init__(self):
         channel = grpc.insecure_channel('characters_service:50051')
         self.stub = character_pb2_grpc.CharactersServiceStub(channel)

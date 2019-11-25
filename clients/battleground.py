@@ -5,6 +5,7 @@ from protos.python import battleground_pb2_grpc
 
 
 class BattlegroundClient(object):
+
     def __init__(self):
         channel = grpc.insecure_channel('battleground_service:50052')
         self.stub = battleground_pb2_grpc.BattlegroundServiceStub(channel)

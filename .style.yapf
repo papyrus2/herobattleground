@@ -1,0 +1,21 @@
+[style]
+# Which predefined style this style is based on.
+based_on_style = pep8
+
+blank_line_before_nested_class_or_def = True
+
+# The column limit.
+column_limit = 120
+
+# Put closing brackets on a separate line, dedented, if the bracketed
+# expression can't fit in a single line.
+dedent_closing_brackets = True
+
+# Place each dictionary entry onto its own line.
+#each_dict_entry_on_separate_line = True
+
+split_penalty_import_names = 0
+split_before_expression_after_opening_paren = True
+
+allow_split_before_dict_value = False
+align_closing_bracket_with_visual_indent = False
