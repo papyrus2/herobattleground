@@ -42,20 +42,19 @@ class BattlegroundService(BattlegroundServiceServicer):
             # no damage done
             return
 
-        for skill in defencer.skills:
-            if skill.skill_type == character_pb2.DEFENCE:
-                skill_chance = self.roll_chance(skill.chance)
-                if skill_chance:
-                    damage = int(damage / 2)
+        skill = self.use_skill(defencer.skills, character_pb2.DEFENCE)
+        if skill:
+            damage = int(damage / skill)
 
         defencer.health -= damage
 
-        # TODO: here is a bug the Attack Skill could be executed multiple times
-        for skill in attacker.skills:
-            if skill.skill_type == character_pb2.ATTACK:
-                skill_chance = self.roll_chance(skill_chance)
-                if skill_chance:
-                    self.round(attacker, defencer)
+    def use_skill(self, skills, skill_type):
+        """ Get the power of the skill_type from the available skills. """
+        for skill in skills:
+            if skill.skill_type == skill_type:
+                if self.roll_chance(skill.chance):
+                    return skill.power
+        return 0
 
         # chance to defance
 
@@ -65,14 +64,25 @@ class BattlegroundService(BattlegroundServiceServicer):
         The defense and attack will be computed here and the battle will 
         be done over a duration of 20 rounds or until one of the players is dead.
         """
-        first_player = request.first_player
-        second_player = request.second_player
+        attacker = request.first_player
+        defencer = request.second_player
 
-        first_player, second_player = self.decide_playing_order(first_player, second_player)
+        attacker, defencer = self.decide_playing_order(attacker, defencer)
 
-        self.round(first_player, second_player)
+        winner = attacker
+        for _ in range(20):
+            self.round(attacker, defencer)
+            skill = self.use_skill(attacker.skills, character_pb2.ATTACK)
+            for _ in range(skill - 1):
+                self.round(attacker, defencer)
 
-        return battleground_pb2.BattlegroundResponse(winner=second_player)
+            if defencer.health < 0:
+                winner = attacker
+                break
+
+            first_player, second_player = second_player, first_player
+
+        return battleground_pb2.BattlegroundResponse(winner=winner)
 
 
 def serve():
