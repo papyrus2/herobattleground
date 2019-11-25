@@ -21,42 +21,55 @@ class BattlegroundService(BattlegroundServiceServicer):
                 return first_player, second_player
         return second_player, first_player
 
-    def compute_damage(self, attacker, defencer):
+    def compute_damage(self, attacker, defender):
         """ Compute the damage done by the attacker. """
-        return attacker.strength - defencer.defence
+        return attacker.strength - defender.defence
 
     def roll_chance(self, chance):
         """ See if the player lucky strike. """
         roll = random.randint(0, 100)
         return roll <= chance
 
-    def round(self, attacker, defencer):
+    def round(self, attacker, defender):
         """ Play a round in the battleground, attack and defence try their lucks 
         and skills. """
-        damage = self.compute_damage(attacker, defencer)
+        log = battleground_pb2.BattleLog(attacker=attacker, defender=defender, skills=[])
 
-        defence_chance = self.roll_chance(defencer.chance)
+        damage = self.compute_damage(attacker, defender)
+        defence_chance = self.roll_chance(defender.chance)
 
         if defence_chance:
             # no damage done
-            return
+            log.damage = 0
+            log.defence_health = defender.health
+            return log
 
-        skill = self.use_skill(defencer.skills, character_pb2.DEFENCE)
+        skill = self.use_skill(defender.skills, character_pb2.DEFENCE)
         if skill:
-            damage = int(damage / skill)
+            # append skill to the log
+            log.skills.append(skill)
+            damage = int(damage / skill.power)
 
         skill = self.use_skill(attacker.skills, character_pb2.ATTACK)
         if skill:
-            defencer.health -= int(damage * (skill - 1))
-        defencer.health -= damage
+            # append skill to the log
+            log.skills.append(skill)
+            damage += int(damage * (skill.power - 1))
+
+        # Damage done
+        defender.health -= damage
+        log.damage += damage
+        log.defence_health = defender.health
+
+        return log
 
     def use_skill(self, skills, skill_type):
-        """ Get the power of the skill_type from the available skills. """
+        """ Get skill of the skill_type from the available skills. """
         for skill in skills:
             if skill.skill_type == skill_type:
                 if self.roll_chance(skill.chance):
-                    return skill.power
-        return 0
+                    return skill
+        return None
 
         # chance to defance
 
@@ -67,20 +80,22 @@ class BattlegroundService(BattlegroundServiceServicer):
         be done over a duration of 20 rounds or until one of the players is dead.
         """
         attacker = request.first_player
-        defencer = request.second_player
+        defender = request.second_player
 
-        attacker, defencer = self.decide_playing_order(attacker, defencer)
+        attacker, defender = self.decide_playing_order(attacker, defender)
 
         winner = attacker
+        battle_log = []
         for _ in range(20):
-            self.round(attacker, defencer)
-            if defencer.health < 0:
+            log = self.round(attacker, defender)
+            battle_log.append(log)
+            if defender.health < 0:
                 winner = attacker
                 break
 
-            attacker, defencer = defencer, attacker
+            attacker, defender = defender, attacker
 
-        return battleground_pb2.BattlegroundResponse(winner=winner)
+        return battleground_pb2.BattlegroundResponse(winner=winner, battle_log=battle_log)
 
 
 def serve():
