@@ -20,4 +20,6 @@ def generate_character(character_type):
     if skills:
         character_dict['skills'] = skills
 
+    character_dict['name'] = attributes['name']
+
     return character_pb2.Character(**character_dict)

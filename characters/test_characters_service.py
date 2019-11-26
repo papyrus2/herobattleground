@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 import unittest
 from mock import patch
 
@@ -16,8 +18,12 @@ class TestCharactersService(unittest.TestCase):
         """ Check that generating a human character has all the expcted attributes. """
         mock_randint.return_value = 0
         result_character = generate_character(HUMAN)
-        expecter_character_dict = characters_attributes[HUMAN]['base_stats']
-        expecter_character_dict['skills'] = characters_attributes[HUMAN]['skills']
+
+        # create expected character
+        human_attribute = deepcopy(characters_attributes[HUMAN])
+        expecter_character_dict = human_attribute['base_stats']
+        expecter_character_dict['skills'] = human_attribute['skills']
+        expecter_character_dict['name'] = human_attribute['name']
 
         self.assertEqual(result_character, Character(**expecter_character_dict), "Unexpected character was generated.")
 
@@ -26,7 +32,10 @@ class TestCharactersService(unittest.TestCase):
         """ Check that generating a beast character has all the expcted attributes. """
         mock_randint.return_value = 0
         result_character = generate_character(BEAST)
-        expecter_character_dict = characters_attributes[BEAST]['base_stats']
+
+        beast_attribute = deepcopy(characters_attributes[BEAST])
+        expecter_character_dict = beast_attribute['base_stats']
+        expecter_character_dict['name'] = beast_attribute['name']
 
         self.assertEqual(result_character, Character(**expecter_character_dict), "Unexpected character was generated.")
 
@@ -37,7 +46,9 @@ class TestCharactersService(unittest.TestCase):
         service = CharacterService()
         result = service.Get(CharacterRequest(character_type=BEAST), None)
 
-        expecter_character_dict = characters_attributes[BEAST]['base_stats']
+        beast_attribute = deepcopy(characters_attributes[BEAST])
+        expecter_character_dict = beast_attribute['base_stats']
+        expecter_character_dict['name'] = beast_attribute['name']
         expecter_result = CharacterResponse(character=Character(**expecter_character_dict))
         self.assertEqual(result, expecter_result, "Get method retuned a different result.")
 

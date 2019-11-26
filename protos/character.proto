@@ -28,6 +28,7 @@ message Character {
     int32 speed = 5;
     int32 chance = 6;
     repeated Skills skills = 7;
+    string name = 8;
 }
 
 enum SkillType {

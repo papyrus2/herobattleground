@@ -21,6 +21,7 @@ skills = {
 # an additional_stats and a list of skills.
 characters_attributes = {
     character_pb2.HUMAN: {
+        'name': 'Orderus',
         'base_stats': {
             'health': 70,
             'strength': 70,
@@ -38,6 +39,7 @@ characters_attributes = {
         'skills': [skills['Rapid strike'], skills['Magic shield']]
     },
     character_pb2.BEAST: {
+        'name': 'Great Worm',
         'base_stats': {
             'health': 60,
             'strength': 60,
