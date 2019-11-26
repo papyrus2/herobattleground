@@ -21,7 +21,7 @@ def not_found(error):
 
 
 @app.errorhandler(400)
-def not_found(error):
+def bad_request(error):
     """ Handler 400 error in a better way """
     return make_response(jsonify({'error': 'Bad request'}), 400)
 
