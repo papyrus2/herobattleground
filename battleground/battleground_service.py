@@ -1,7 +1,9 @@
+from copy import deepcopy
 from concurrent import futures
 import random
 
 import grpc
+
 from protos.python.battleground_pb2_grpc import (BattlegroundServiceServicer, add_BattlegroundServiceServicer_to_server)
 from protos.python import character_pb2, battleground_pb2
 from characters.helpers import generate_character
@@ -31,37 +33,28 @@ class BattlegroundService(BattlegroundServiceServicer):
         return roll <= chance
 
     def round(self, attacker, defender):
-        """ Play a round in the battleground, attack and defence try their lucks 
-        and skills. """
-        log = battleground_pb2.BattleLog(attacker=attacker, defender=defender, skills=[])
+        """ Report the damage done and a list of skill used by attacker and defender """
+        attacker_skills = []
+        defender_skills = []
 
         damage = self.compute_damage(attacker, defender)
         defence_chance = self.roll_chance(defender.chance)
-
         if defence_chance:
-            # no damage done
-            log.damage = 0
-            log.defence_health = defender.health
-            return log
+            return 0, attacker_skills, defender_skills
 
+        # check defender skill
         skill = self.use_skill(defender.skills, character_pb2.DEFENCE)
         if skill:
-            # append skill to the log
-            log.skills.append(skill)
+            defender_skills.append(skill)
             damage = int(damage / skill.power)
 
+        # check attacker skill
         skill = self.use_skill(attacker.skills, character_pb2.ATTACK)
         if skill:
-            # append skill to the log
-            log.skills.append(skill)
+            attacker_skills.append(skill)
             damage += int(damage * (skill.power - 1))
 
-        # Damage done
-        defender.health -= damage
-        log.damage += damage
-        log.defence_health = defender.health
-
-        return log
+        return damage, attacker_skills, defender_skills
 
     def use_skill(self, skills, skill_type):
         """ Get skill of the skill_type from the available skills. """
@@ -84,18 +77,30 @@ class BattlegroundService(BattlegroundServiceServicer):
 
         attacker, defender = self.decide_playing_order(attacker, defender)
 
-        winner = attacker
+        winner = None
         battle_log = []
         for _ in range(20):
-            log = self.round(attacker, defender)
+            damage, attacker_skills, defender_skills = self.round(attacker, defender)
+            defender.health -= damage
+
+            # create a log for current round
+            log = battleground_pb2.BattleLog(
+                damage=damage,
+                defender_health=defender.health,
+                attacker_skills=attacker_skills,
+                defender_skills=defender_skills
+            )
             battle_log.append(log)
+
             if defender.health < 0:
                 winner = attacker
                 break
 
             attacker, defender = defender, attacker
 
-        return battleground_pb2.BattlegroundResponse(winner=winner, battle_log=battle_log)
+        return battleground_pb2.BattlegroundResponse(
+            attacker=attacker, defender=defender, winner=winner, battle_log=battle_log
+        )
 
 
 def serve():

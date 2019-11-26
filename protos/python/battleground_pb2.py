@@ -21,7 +21,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='battleground',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x12\x62\x61ttleground.proto\x12\x0c\x62\x61ttleground\x1a\x0f\x63haracter.proto\"n\n\x13\x42\x61ttlegroundRequest\x12*\n\x0c\x66irst_player\x18\x01 \x01(\x0b\x32\x14.character.Character\x12+\n\rsecond_player\x18\x02 \x01(\x0b\x32\x14.character.Character\"i\n\x14\x42\x61ttlegroundResponse\x12$\n\x06winner\x18\x01 \x01(\x0b\x32\x14.character.Character\x12+\n\nbattle_log\x18\x02 \x03(\x0b\x32\x17.battleground.BattleLog\"\xa6\x01\n\tBattleLog\x12&\n\x08\x61ttacker\x18\x01 \x01(\x0b\x32\x14.character.Character\x12&\n\x08\x64\x65\x66\x65nder\x18\x02 \x01(\x0b\x32\x14.character.Character\x12\x0e\n\x06\x64\x61mage\x18\x03 \x01(\x05\x12\x16\n\x0e\x64\x65\x66\x65nce_health\x18\x04 \x01(\x05\x12!\n\x06skills\x18\x05 \x03(\x0b\x32\x11.character.Skills2h\n\x13\x42\x61ttlegroundService\x12Q\n\x08\x46ighting\x12!.battleground.BattlegroundRequest\x1a\".battleground.BattlegroundResponseb\x06proto3')
+  serialized_pb=_b('\n\x12\x62\x61ttleground.proto\x12\x0c\x62\x61ttleground\x1a\x0f\x63haracter.proto\"n\n\x13\x42\x61ttlegroundRequest\x12*\n\x0c\x66irst_player\x18\x01 \x01(\x0b\x32\x14.character.Character\x12+\n\rsecond_player\x18\x02 \x01(\x0b\x32\x14.character.Character\"\xb9\x01\n\x14\x42\x61ttlegroundResponse\x12&\n\x08\x61ttacker\x18\x01 \x01(\x0b\x32\x14.character.Character\x12&\n\x08\x64\x65\x66\x65nder\x18\x02 \x01(\x0b\x32\x14.character.Character\x12$\n\x06winner\x18\x03 \x01(\x0b\x32\x14.character.Character\x12+\n\nbattle_log\x18\x04 \x03(\x0b\x32\x17.battleground.BattleLog\"\x8c\x01\n\tBattleLog\x12\x0e\n\x06\x64\x61mage\x18\x01 \x01(\x05\x12\x17\n\x0f\x64\x65\x66\x65nder_health\x18\x02 \x01(\x05\x12*\n\x0f\x61ttacker_skills\x18\x03 \x03(\x0b\x32\x11.character.Skills\x12*\n\x0f\x64\x65\x66\x65nder_skills\x18\x05 \x03(\x0b\x32\x11.character.Skills2h\n\x13\x42\x61ttlegroundService\x12Q\n\x08\x46ighting\x12!.battleground.BattlegroundRequest\x1a\".battleground.BattlegroundResponseb\x06proto3')
   ,
   dependencies=[character__pb2.DESCRIPTOR,])
 
@@ -74,15 +74,29 @@ _BATTLEGROUNDRESPONSE = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='winner', full_name='battleground.BattlegroundResponse.winner', index=0,
+      name='attacker', full_name='battleground.BattlegroundResponse.attacker', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='battle_log', full_name='battleground.BattlegroundResponse.battle_log', index=1,
-      number=2, type=11, cpp_type=10, label=3,
+      name='defender', full_name='battleground.BattlegroundResponse.defender', index=1,
+      number=2, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='winner', full_name='battleground.BattlegroundResponse.winner', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='battle_log', full_name='battleground.BattlegroundResponse.battle_log', index=3,
+      number=4, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -99,8 +113,8 @@ _BATTLEGROUNDRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=165,
-  serialized_end=270,
+  serialized_start=166,
+  serialized_end=351,
 )
 
 
@@ -112,35 +126,28 @@ _BATTLELOG = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='attacker', full_name='battleground.BattleLog.attacker', index=0,
-      number=1, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='defender', full_name='battleground.BattleLog.defender', index=1,
-      number=2, type=11, cpp_type=10, label=1,
-      has_default_value=False, default_value=None,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      serialized_options=None, file=DESCRIPTOR),
-    _descriptor.FieldDescriptor(
-      name='damage', full_name='battleground.BattleLog.damage', index=2,
-      number=3, type=5, cpp_type=1, label=1,
+      name='damage', full_name='battleground.BattleLog.damage', index=0,
+      number=1, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='defence_health', full_name='battleground.BattleLog.defence_health', index=3,
-      number=4, type=5, cpp_type=1, label=1,
+      name='defender_health', full_name='battleground.BattleLog.defender_health', index=1,
+      number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='skills', full_name='battleground.BattleLog.skills', index=4,
+      name='attacker_skills', full_name='battleground.BattleLog.attacker_skills', index=2,
+      number=3, type=11, cpp_type=10, label=3,
+      has_default_value=False, default_value=[],
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+    _descriptor.FieldDescriptor(
+      name='defender_skills', full_name='battleground.BattleLog.defender_skills', index=3,
       number=5, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -158,17 +165,18 @@ _BATTLELOG = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=273,
-  serialized_end=439,
+  serialized_start=354,
+  serialized_end=494,
 )
 
 _BATTLEGROUNDREQUEST.fields_by_name['first_player'].message_type = character__pb2._CHARACTER
 _BATTLEGROUNDREQUEST.fields_by_name['second_player'].message_type = character__pb2._CHARACTER
+_BATTLEGROUNDRESPONSE.fields_by_name['attacker'].message_type = character__pb2._CHARACTER
+_BATTLEGROUNDRESPONSE.fields_by_name['defender'].message_type = character__pb2._CHARACTER
 _BATTLEGROUNDRESPONSE.fields_by_name['winner'].message_type = character__pb2._CHARACTER
 _BATTLEGROUNDRESPONSE.fields_by_name['battle_log'].message_type = _BATTLELOG
-_BATTLELOG.fields_by_name['attacker'].message_type = character__pb2._CHARACTER
-_BATTLELOG.fields_by_name['defender'].message_type = character__pb2._CHARACTER
-_BATTLELOG.fields_by_name['skills'].message_type = character__pb2._SKILLS
+_BATTLELOG.fields_by_name['attacker_skills'].message_type = character__pb2._SKILLS
+_BATTLELOG.fields_by_name['defender_skills'].message_type = character__pb2._SKILLS
 DESCRIPTOR.message_types_by_name['BattlegroundRequest'] = _BATTLEGROUNDREQUEST
 DESCRIPTOR.message_types_by_name['BattlegroundResponse'] = _BATTLEGROUNDRESPONSE
 DESCRIPTOR.message_types_by_name['BattleLog'] = _BATTLELOG
@@ -203,8 +211,8 @@ _BATTLEGROUNDSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=441,
-  serialized_end=545,
+  serialized_start=496,
+  serialized_end=600,
   methods=[
   _descriptor.MethodDescriptor(
     name='Fighting',

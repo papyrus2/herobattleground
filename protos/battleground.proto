@@ -14,14 +14,15 @@ message BattlegroundRequest {
 }
 
 message BattlegroundResponse {
-    character.Character winner = 1;
-    repeated BattleLog battle_log = 2;
+    character.Character attacker = 1;
+    character.Character defender = 2;
+    character.Character winner = 3;
+    repeated BattleLog battle_log = 4;
 }
 
 message BattleLog {
-    character.Character attacker = 1;
-    character.Character defender = 2;
-    int32 damage = 3;
-    int32 defence_health = 4;
-    repeated character.Skills skills = 5;
+    int32 damage = 1;
+    int32 defender_health = 2;
+    repeated character.Skills attacker_skills = 3;
+    repeated character.Skills defender_skills = 5;
 }
