@@ -5,7 +5,6 @@ services:
     image: hero_python_base
     volumes:
       - ./:/opt/herobattleground
-
     ports:
       - "50051:50051"
     command: python characters/characters_service.py
@@ -14,12 +13,17 @@ services:
     image: hero_python_base
     volumes:
       - ./:/opt/herobattleground
-
     ports:
       - "50052:50052"
     command: python battleground/battleground_service.py
 
-
+  webserver:
+    image: hero_python_base
+    volumes:
+      - ./:/opt/herobattleground
+    ports:
+      - "5000:5000"
+    command: python webserver/webserver.py
 
   testing:
     image: hero_python_base
