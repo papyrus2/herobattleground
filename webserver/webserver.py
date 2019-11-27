@@ -2,7 +2,7 @@ import os
 import sys
 
 from flask import Flask, jsonify
-from flask import request
+from flask import request, render_template
 from flask import abort
 from flask import make_response
 from google.protobuf.json_format import MessageToDict
@@ -45,7 +45,7 @@ def get_character():
 
 
 @app.route('/battleground/', methods=['GET'])
-def get_battleground():
+def battleground():
     """
     Use GET method to get a random battleground
     """
@@ -57,7 +57,13 @@ def get_battleground():
 
     battle = battle_client.fighting(BattlegroundRequest(first_player=human_player, second_player=beast_player))
 
-    return jsonify(MessageToDict(battle))
+    return render_template('battleground.html', battle=battle)
+
+
+@app.route('/', methods=['GET'])
+@app.route('/index', methods=['GET'])
+def index():
+    return render_template('index.html')
 
 
 if __name__ == '__main__':

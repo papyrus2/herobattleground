@@ -1,0 +1,38 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1> Welcome to the battleground </h1>
+
+<div class="well">
+    <div class="control-group">
+        <label class="control-label"><b>{{battle.winner.name}}</b> is the winner, it's remaining health:
+            {{battle.winner.health}} </label>
+        <div class="controls">
+            {% for log in battle.battle_log %}
+            {% if loop.index % 2 == 1 %}
+            <b>{{battle.attacker.name}}</b>
+            {% else %}
+            <b>{{battle.defender.name}}</b>
+            {% endif %}
+
+            {% if log.damage == 0 %}
+            -> missed the attack, defender health remained untouched, <b>{{ log.defender_health }}</b>
+            {% else %}
+            -> attack was a success, the damage done was {{log.damage}}
+            {% for skill in log.attacker_skills %}
+            thanks to the <b>{{skill.name}}</b>
+            {% endfor %}
+            and the defender health is now <b>{{ log.defender_health }}</b>
+            {% for skill in log.defender_skills %}
+            thanks to the <b>{{skill.name}}</b>
+            {% endfor %}
+            {% endif %}
+            <br>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
