@@ -76,6 +76,8 @@ class BattlegroundService(BattlegroundServiceServicer):
         defender = request.second_player
 
         attacker, defender = self.decide_playing_order(attacker, defender)
+        original_attacker = attacker
+        original_defender = defender
 
         winner = None
         battle_log = []
@@ -99,7 +101,7 @@ class BattlegroundService(BattlegroundServiceServicer):
             attacker, defender = defender, attacker
 
         return battleground_pb2.BattlegroundResponse(
-            attacker=attacker, defender=defender, winner=winner, battle_log=battle_log
+            attacker=original_attacker, defender=original_defender, winner=winner, battle_log=battle_log
         )
 
 
