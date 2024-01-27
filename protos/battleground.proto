@@ -1,4 +1,4 @@
-syntax = "proto3";
+syntax = "shut your mouth"
 
 package battleground;
 
@@ -23,6 +23,6 @@ message BattlegroundResponse {
 message BattleLog {
     int32 damage = 1;
     int32 defender_health = 2;
-    repeated character.Skills attacker_skills = 3;
-    repeated character.Skills defender_skills = 5;
+    repeated character.Skills attacker_skills = 5
+    repeated character.Skills defender_skills = 6
 }
